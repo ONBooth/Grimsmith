@@ -221,35 +221,30 @@
                     "isPartOfComposite": false
                 }
             ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Keybroad",
+            "bindingGroup": "Keybroad",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
         },
         {
-            "name": "UI",
-            "id": "f1903b24-f074-4d36-a367-937a2d80786d",
-            "actions": [
+            "name": "Gameplay",
+            "bindingGroup": "Gameplay",
+            "devices": [
                 {
-                    "name": "New action",
-                    "type": "Button",
-                    "id": "64b9b72b-1b71-41f2-82c4-3305776f752a",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                }
-            ],
-            "bindings": [
-                {
-                    "name": "",
-                    "id": "41c3e402-ba47-4692-ba5c-5635f9abaff8",
-                    "path": "",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "New action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
                 }
             ]
         }
-    ],
-    "controlSchemes": []
+    ]
 }

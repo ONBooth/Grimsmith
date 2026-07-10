@@ -1,14 +1,21 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody rb;
     public float moveSpeed; 
     private Vector2 _moveDirection;
+    public LayerMask ground;
+    public Transform groundCheck;
+    [SerializeField] bool grounded;
+
+    
 
     public InputActionReference move;
-    public InputActionReference jump ;
+    
 
     // Update is called once per frame
    private void Update()
@@ -20,4 +27,5 @@ public class PlayerMovement : MonoBehaviour
     {
         rb.linearVelocity = new Vector2(x:_moveDirection.x * moveSpeed, y:_moveDirection.y * moveSpeed);
     }
+   
 }
