@@ -1502,7 +1502,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 20.7
+  field of view: 64.61749
   orthographic: 0
   orthographic size: 10
   m_Depth: -1
@@ -1528,13 +1528,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 345743368}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.0039794077, y: 0.021399459, z: -0.00008517735, w: 0.99976313}
-  m_LocalPosition: {x: 0, y: 1.77, z: -10}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 39.445435, y: 4.9019833, z: 1.4953526}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 29.612, y: 2.452, z: 0}
 --- !u!1 &349665768
 GameObject:
   m_ObjectHideFlags: 0
@@ -2644,7 +2644,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.000061035156, y: 0.00002670288}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &699111256
@@ -3438,7 +3438,7 @@ GameObject:
   - component: {fileID: 991881544}
   - component: {fileID: 991881545}
   m_Layer: 5
-  m_Name: MainMenu - MarketBoardMenu
+  m_Name: 'MainMenu '
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3459,6 +3459,7 @@ MonoBehaviour:
   buttons: []
   staggerDelay: 0.08
   reverseOnClose: 1
+  _isOpen: 0
 --- !u!114 &991881540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3568,45 +3569,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 991881538}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e3ebf3aafe32d44eb00580a67d1314b, type: 3}
+  m_Script: {fileID: 11500000, guid: c8a356b316977a04a98bf4263743096a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Games.UI.MenuUi
-  window: {fileID: 1462121121}
-  windowRectTransform: {fileID: 1462121123}
-  windowCanvasGroup: {fileID: 1462121122}
-  openDirection: 3
-  closeDirection: 1
-  distanceToAnimate: {x: 200, y: 200}
-  easingCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  animationDuration: 0.259
-  changeGizmos: 0
-  gizmoHandler: 0
-  gizmoOpenColor: {r: 0, g: 1, b: 0, a: 1}
-  gizmoCloseColor: {r: 1, g: 0, b: 0, a: 1}
-  gizmoInitallocationColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_EditorClassIdentifier: Assembly-CSharp::MenuButtonAnim
+  rectTransform: {fileID: 1044482123}
+  expandedScale: 1.15
+  expandDuration: 0.2
+  shiftDistance: 50
+  shiftDuration: 0.25
+  rotateAngle: 75
+  rotateDuration: 0.25
+  ease: 27
 --- !u!1 &995626683
 GameObject:
   m_ObjectHideFlags: 0
@@ -3824,8 +3797,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1044482122}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.245, y: 3.245, z: 3.245}
+  m_LocalPosition: {x: 0, y: 0, z: 593}
+  m_LocalScale: {x: 2.484172, y: 2.484172, z: 2.484172}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1276937275}
@@ -3835,8 +3808,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -11.661255, y: -7.358307}
-  m_SizeDelta: {x: 500, y: 231.9307}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 293.1301, y: 222.5582}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1044482124
 MonoBehaviour:
@@ -3855,10 +3828,10 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 3
-  m_Spacing: 10
+  m_ChildAlignment: 4
+  m_Spacing: -100
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 0
+  m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
@@ -4059,7 +4032,7 @@ Transform:
   m_GameObject: {fileID: 1181284960}
   serializedVersion: 2
   m_LocalRotation: {x: 0.0039794077, y: 0.021399459, z: -0.00008517735, w: 0.99976313}
-  m_LocalPosition: {x: 0, y: 1.77, z: -10}
+  m_LocalPosition: {x: 0, y: 9.42, z: -9.94}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4960,7 +4933,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -1, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1423575294
