@@ -1961,7 +1961,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
-  m_characterHorizontalScale: 3.5
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -2879,7 +2879,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &807414642
@@ -2895,7 +2895,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.9622642, g: 0.9622642, b: 0.9622642, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3707,11 +3707,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuButtonAnim
   rectTransform: {fileID: 1044482123}
-  expandedScale: 1.15
-  expandDuration: 0.2
-  shiftDistance: 50
+  expandedScale: 1.3
+  expandDuration: 0.5
+  shiftDistance: 5
   shiftDuration: 0.25
-  rotateAngle: 75
+  rotateAngle: 50
   rotateDuration: 0.25
   ease: 27
 --- !u!1 &995626683
@@ -3916,6 +3916,7 @@ GameObject:
   - component: {fileID: 1044482123}
   - component: {fileID: 1044482124}
   - component: {fileID: 1044482125}
+  - component: {fileID: 1044482127}
   m_Layer: 5
   m_Name: 'Vertical Layout '
   m_TagString: Untagged
@@ -3983,6 +3984,14 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!222 &1044482127
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044482122}
+  m_CullTransparentMesh: 1
 --- !u!1 &1149001126
 GameObject:
   m_ObjectHideFlags: 0
@@ -4802,7 +4811,7 @@ RectTransform:
   m_GameObject: {fileID: 1276937274}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5223958, y: 0.5223958, z: 0.5223958}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5223958}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 436228585}
@@ -5716,8 +5725,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 64
-  m_fontSizeBase: 64
+  m_fontSize: 60
+  m_fontSizeBase: 60
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
