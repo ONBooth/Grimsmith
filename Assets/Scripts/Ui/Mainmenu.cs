@@ -13,6 +13,8 @@ namespace Games.UI
         [SerializeField] private GameObject controlsPanel;
         [SerializeField] private GameObject creditsPanel;
 
+        [SerializeField] private SettingsPanelAnimator settingsAnimator;
+
         private GameObject[] AllPanels => new[]
         {
             mainPanel, settingsPanel, audioPanel, graphicsPanel, controlsPanel, creditsPanel
@@ -23,7 +25,7 @@ namespace Games.UI
             ShowOnly(mainPanel);
         }
 
-        // ---- Central switcher: closes every panel, opens exactly one ----
+       
         private void ShowOnly(GameObject panelToShow)
         {
             foreach (var panel in AllPanels)
@@ -39,9 +41,19 @@ namespace Games.UI
             SceneManager.LoadScene(gameplaySceneName);
         }
 
-        public void OnSettingsPressed() => ShowOnly(settingsPanel);
-        public void OnSettingsClosed()  => ShowOnly(mainPanel);
+        public void OnSettingsPressed()
+        {
+            Debug.Log("OnSettingsPressed called");
+            ShowOnly(null); // hides everything else instantly
+            settingsAnimator.Open();
+        }
 
+        public void OnSettingsClosed()
+        {
+            settingsAnimator.Close(); // deactivates itself when finished
+            ShowOnly(mainPanel);
+        }
+        
         public void OnAudioPressed() => ShowOnly(audioPanel);
         public void OnAudioClosed()  => ShowOnly(settingsPanel);
 
