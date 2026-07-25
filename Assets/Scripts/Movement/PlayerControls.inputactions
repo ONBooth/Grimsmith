@@ -67,7 +67,7 @@
                     "isPartOfComposite": false
                 },
                 {
-                    "name": "2D Vector",
+                    "name": "Keyboard",
                     "id": "b92f9bb5-99fb-4ef6-bb03-8b4384da6a09",
                     "path": "2DVector",
                     "interactions": "",
@@ -122,11 +122,11 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "2D Vector",
+                    "name": "Gampad",
                     "id": "1b20731f-d990-4adc-a772-964d78f43c4c",
                     "path": "2DVector",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "StickDeadzone,NormalizeVector2",
                     "groups": "",
                     "action": "Movement",
                     "isComposite": true,

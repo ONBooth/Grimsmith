@@ -12,12 +12,14 @@ namespace Games.UI
         [SerializeField] private GameObject graphicsPanel;
         [SerializeField] private GameObject controlsPanel;
         [SerializeField] private GameObject creditsPanel;
+        [SerializeField] private GameObject PausePanel;
 
         [SerializeField] private SettingsPanelAnimator settingsAnimator;
+        
 
         private GameObject[] AllPanels => new[]
         {
-            mainPanel, settingsPanel, audioPanel, graphicsPanel, controlsPanel, creditsPanel
+            mainPanel, settingsPanel, audioPanel, graphicsPanel, controlsPanel, creditsPanel, PausePanel
         };
 
         private void Awake()
@@ -65,6 +67,10 @@ namespace Games.UI
 
         public void OnCreditsPressed() => ShowOnly(creditsPanel);
         public void OnCreditsClosed()  => ShowOnly(settingsPanel);
+        
+        public void OnPausePressed() => ShowOnly(PausePanel);
+        public void OnPauseClosed() => ShowOnly(mainPanel);
+        
 
         public void OnQuitPressed()
         {
