@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public class PlayerController : MonoBehaviour, PlayerControls.IPlayerActions
 {
@@ -87,6 +88,30 @@ public class PlayerController : MonoBehaviour, PlayerControls.IPlayerActions
         else if (context.canceled)
         {
             // stop sprinting
+        }
+    }
+
+    public void OnDash(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            // start dash
+        }
+        else if (context.canceled)
+        {
+            // stop dash
+        }
+    }
+
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            // start pause
+        }
+        else if (context.canceled)
+        {
+            // stop pause
         }
     }
 }
