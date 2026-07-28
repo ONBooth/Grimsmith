@@ -12,14 +12,16 @@ namespace Games.UI
         [SerializeField] private GameObject graphicsPanel;
         [SerializeField] private GameObject controlsPanel;
         [SerializeField] private GameObject creditsPanel;
-        [SerializeField] private GameObject PausePanel;
+        [SerializeField] private GameObject pausePanel;
+        [SerializeField] private GameObject tipsPanel;
 
         [SerializeField] private SettingsPanelAnimator settingsAnimator;
+        [SerializeField] private PausePanelAnimator panelAnimator;
         
 
         private GameObject[] AllPanels => new[]
         {
-            mainPanel, settingsPanel, audioPanel, graphicsPanel, controlsPanel, creditsPanel, PausePanel
+            mainPanel, settingsPanel, audioPanel, graphicsPanel, controlsPanel, creditsPanel, pausePanel , tipsPanel
         };
 
         private void Awake()
@@ -39,6 +41,7 @@ namespace Games.UI
 
         public void OnPlayPressed()
         {
+            Debug.Log("OnPlayPressed called");
             Time.timeScale = 1f;
             SceneManager.LoadScene(gameplaySceneName);
         }
@@ -67,9 +70,23 @@ namespace Games.UI
 
         public void OnCreditsPressed() => ShowOnly(creditsPanel);
         public void OnCreditsClosed()  => ShowOnly(settingsPanel);
+
+        public void OnPausePressed()
+        {
+            panelAnimator.Open();
+            ShowOnly(pausePanel);
+        }
+
+        public void OnPauseClosed()
+        {
+            panelAnimator.Close();
+            ShowOnly(mainPanel);
+        }
+            
+            
         
-        public void OnPausePressed() => ShowOnly(PausePanel);
-        public void OnPauseClosed() => ShowOnly(mainPanel);
+        public void onTipsPressed() => ShowOnly(tipsPanel);
+        public void OnTipsClosed()  => ShowOnly(settingsPanel);
         
 
         public void OnQuitPressed()

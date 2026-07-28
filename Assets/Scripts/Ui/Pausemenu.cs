@@ -13,6 +13,7 @@ namespace Games.UI
         [SerializeField] private InputActionReference pauseAction;
         [SerializeField] private GameObject pausePanel;
         [SerializeField] private GameObject settingsPanel;
+        [SerializeField] private GameObject tipsPanel;
         [SerializeField] private string mainMenuSceneName = "MainMenu";
 
         private bool _isPaused;
@@ -68,6 +69,11 @@ namespace Games.UI
         {
             Time.timeScale = 1f;
             SceneManager.LoadScene(mainMenuSceneName);
+        }
+        public void OnTipsPressed()
+        {
+            pausePanel.SetActive(false);
+            tipsPanel.SetActive(true);
         }
     }
 }

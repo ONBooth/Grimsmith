@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement 
 {
     public Rigidbody rb;
     public float moveSpeed; 
@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask ground;
     public Transform groundCheck;
     [SerializeField] bool grounded;
-
     
 
     public InputActionReference move;
