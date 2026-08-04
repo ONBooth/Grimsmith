@@ -1,117 +1,59 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System;
 
-public class PlayerController : MonoBehaviour, PlayerControls.IPlayerActions
+public class PlayerController : MonoBehaviour
 {
-    private PlayerControls controls;
+    [SerializeField] private PlayerMovement _playerMovement;
+    [SerializeField] private InputActionAsset _inputActionAsset;
+    [SerializeField] private InputActionReference _moveAction;
+    [SerializeField] private InputActionReference _jumpAction;
+    
 
-    void Awake()
+    private void OnEnable()
     {
-        controls = new PlayerControls();
-        controls.Player.SetCallbacks(this);
+        _inputActionAsset.Enable();
     }
 
-    void OnEnable() => controls.Player.Enable();
-    void OnDisable() => controls.Player.Disable();
-
-    public void OnMove(InputAction.CallbackContext context)
+    private void OnDisable()
     {
-        Vector2 move = context.ReadValue<Vector2>();
-        // ...
+        _inputActionAsset.Disable();
     }
 
-    public void OnJump(InputAction.CallbackContext context)
+    private void Awake()
     {
-        if (context.performed)
-        {
-            // jump
-        }
+        _moveAction.action.performed += OnMovePerformed;
+        _moveAction.action.canceled += OnMoveCanceled;
+
+        _jumpAction.action.performed += OnJumpPerformed;
+        _jumpAction.action.canceled += OnJumpCanceled;
     }
 
-    public void OnAttack(InputAction.CallbackContext context)
+    private void OnDestroy()
     {
-        if (context.performed)
-        {
-            // attack
-        }
+        _moveAction.action.performed -= OnMovePerformed;
+        _moveAction.action.canceled -= OnMoveCanceled;
+
+        _jumpAction.action.performed -= OnJumpPerformed;
+        _jumpAction.action.canceled -= OnJumpCanceled;
     }
 
-    public void OnCrouch(InputAction.CallbackContext context)
+    private void OnMovePerformed(InputAction.CallbackContext ctx)
     {
-        if (context.performed)
-        {
-            // crouch
-        }
-        else if (context.canceled)
-        {
-            // stand back up, if crouch is a hold
-        }
+        _playerMovement.SetMoveDirection(ctx.ReadValue<Vector2>());
     }
 
-    public void OnInteract(InputAction.CallbackContext context)
+    private void OnMoveCanceled(InputAction.CallbackContext ctx)
     {
-        if (context.performed)
-        {
-            // interact
-        }
+        _playerMovement.SetMoveDirection(Vector2.zero);
     }
 
-    public void OnLook(InputAction.CallbackContext context)
+    private void OnJumpPerformed(InputAction.CallbackContext ctx)
     {
-        Vector2 look = context.ReadValue<Vector2>();
-        // camera/mouse look
+        _playerMovement.Jump();
     }
 
-    public void OnNext(InputAction.CallbackContext context)
+    private void OnJumpCanceled(InputAction.CallbackContext ctx)
     {
-        if (context.performed)
-        {
-            // next (e.g. cycle weapon/item forward)
-        }
-    }
-
-    public void OnPrevious(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            // previous (e.g. cycle weapon/item backward)
-        }
-    }
-
-    public void OnSprint(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            // start sprinting
-        }
-        else if (context.canceled)
-        {
-            // stop sprinting
-        }
-    }
-
-    public void OnDash(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            // start dash
-        }
-        else if (context.canceled)
-        {
-            // stop dash
-        }
-    }
-
-    public void OnPause(InputAction.CallbackContext context)
-    {
-        if (context.performed)
-        {
-            // start pause
-        }
-        else if (context.canceled)
-        {
-            // stop pause
-        }
+       // no action needed 
     }
 }

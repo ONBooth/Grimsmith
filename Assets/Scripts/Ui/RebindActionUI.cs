@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 using UnityEngine.InputSystem;
+using TMPro;
 using static UnityEngine.InputSystem.InputActionRebindingExtensions;
 
 namespace Games.UI
@@ -16,7 +17,7 @@ namespace Games.UI
     /// </summary>
     public class RebindActionUI : MonoBehaviour
     {
-       [Header("Action to rebind")]
+        [Header("Action to rebind")]
         // Reference to the .inputactions asset's action this row controls (e.g. "Move").
         [SerializeField] private InputActionReference action;
 
@@ -30,18 +31,18 @@ namespace Games.UI
         [SerializeField] private InputBinding.DisplayStringOptions displayStringOptions;
 
         [Header("UI References")]
-        [SerializeField] private Text actionLabel;       // shows the action's name, e.g. "Move Up"
-        [SerializeField] private Text bindingText;        // fallback text label if no icon exists
-        [SerializeField] private Image bindingIcon;        // icon shown instead of text when available
-        [SerializeField] private Button rebindButton;      // the button the player clicks to start rebinding
-        [SerializeField] private Text rebindButtonText;    // "Press a key..." prompt shown while waiting
-        [SerializeField] private GameObject rebindOverlay; // optional full-screen blocker while waiting
+        [SerializeField] private TMP_Text actionLabel;       // shows the action's name, e.g. "Move Up"
+        [SerializeField] private TMP_Text bindingText;        // fallback text label if no icon exists
+        [SerializeField] private Image bindingIcon;            // icon shown instead of text when available
+        [SerializeField] private Button rebindButton;          // the button the player clicks to start rebinding
+        [SerializeField] private TMP_Text rebindButtonText;    // "Press a key..." prompt shown while waiting
+        [SerializeField] private GameObject rebindOverlay;     // optional full-screen blocker while waiting
 
         [Header("Icons (optional — leave empty to always use text)")]
         [SerializeField] private InputIconDatabase iconDatabase;
 
         [Header("Conflict Warning")]
-        [SerializeField] private Text conflictWarningText;     // shared warning label, e.g. "Already used by Down!"
+        [SerializeField] private TMP_Text conflictWarningText;     // shared warning label, e.g. "Already used by Down!"
         [SerializeField] private float conflictWarningDuration = 2f;
 
         // The in-progress rebind listener. Null whenever we're not actively waiting for input.
@@ -145,16 +146,29 @@ namespace Games.UI
             // Cancel any rebind already in progress before starting a new one.
             rebindOperation?.Cancel();
 
+            // Unity's Input System throws InvalidOperationException if you try to
+            // rebind an action while it's still enabled — which it normally is,
+            // since the player needs it active to navigate the menu in the first
+            // place. Disable it for the duration of the rebind, then restore
+            // whatever its enabled state was before we touched it.
+            var wasEnabled = actionToRebind.enabled;
+            if (wasEnabled)
+                actionToRebind.Disable();
+
             void CleanUp()
             {
                 rebindOperation?.Dispose();
                 rebindOperation = null;
+
+                if (wasEnabled)
+                    actionToRebind.Enable();
             }
 
             if (rebindButtonText != null) rebindButtonText.gameObject.SetActive(false);
             rebindOverlay?.SetActive(true);
 
             rebindOperation = actionToRebind.PerformInteractiveRebinding(bindingIndex)
+                .WithActionEventNotificationsBeingSuppressed()
 
                 // Player pressed Escape or the operation was cancelled some other way.
                 .OnCancel(operation =>
