@@ -29,35 +29,11 @@ public class SettingsUI : MonoBehaviour
 
     private void OnEnable()
     {
-        InitAudioControls();
+        
         InitDisplayControls();
     }
 
-    private void InitAudioControls()
-    {
-        if (AudioManager.Instance == null) return;
-
-        if (masterVolumeSlider != null)
-        {
-            masterVolumeSlider.SetValueWithoutNotify(AudioManager.Instance.masterVolume);
-            masterVolumeSlider.onValueChanged.RemoveAllListeners();
-            masterVolumeSlider.onValueChanged.AddListener(AudioManager.Instance.SetMasterVolume);
-        }
-
-        if (musicVolumeSlider != null)
-        {
-            musicVolumeSlider.SetValueWithoutNotify(AudioManager.Instance.musicVolume);
-            musicVolumeSlider.onValueChanged.RemoveAllListeners();
-            musicVolumeSlider.onValueChanged.AddListener(AudioManager.Instance.SetMusicVolume);
-        }
-
-        if (sfxVolumeSlider != null)
-        {
-            sfxVolumeSlider.SetValueWithoutNotify(AudioManager.Instance.sfxVolume);
-            sfxVolumeSlider.onValueChanged.RemoveAllListeners();
-            sfxVolumeSlider.onValueChanged.AddListener(AudioManager.Instance.SetSfxVolume);
-        }
-    }
+   
 
     private void InitDisplayControls()
     {
@@ -91,11 +67,8 @@ public class SettingsUI : MonoBehaviour
     // Reset Button
     public void ResetAudioDisplayDefualts()
     {
-        AudioManager.Instance?.SetMasterVolume(1f);
-        AudioManager.Instance?.SetMusicVolume(1f);
-        AudioManager.Instance?.SetSfxVolume(1f);
+       
         DisplaySettingsManager.Instance?.SetBrightness(1f);
-        InitAudioControls();
         InitDisplayControls();
     }
 
