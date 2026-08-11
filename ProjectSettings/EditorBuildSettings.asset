@@ -8,6 +8,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/Grimsmith.unity
+    guid: 3af93d732b5c8cd4aad62abf543f10c3
+  - enabled: 1
+    path: Assets/MainLevel.unity
+    guid: 19e98a7c55473654b8f8978f57e9c831
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

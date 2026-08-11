@@ -5,7 +5,7 @@ namespace Games.UI
 {
     public class MainMenu : MonoBehaviour
     {
-        [SerializeField] private string gameplaySceneName = "Gameplay";
+        [SerializeField] private string gameplaySceneName = "MainLevel"; 
         [SerializeField] private GameObject mainPanel;
         [SerializeField] private GameObject settingsPanel;
         [SerializeField] private GameObject audioPanel;
