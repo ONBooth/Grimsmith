@@ -36,5 +36,6 @@ public class PlayerMovement : MonoBehaviour
         Vector3 velocity = rb.linearVelocity;
         rb.linearVelocity = new Vector3(velocity.x, 0f, velocity.z); // reset vertical velocity for consistent jump height
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        Debug.Log("Skibidi");
     }
 }
