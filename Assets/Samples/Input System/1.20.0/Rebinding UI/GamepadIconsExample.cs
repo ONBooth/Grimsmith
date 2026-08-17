@@ -14,7 +14,7 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
     public class GamepadIconsExample : MonoBehaviour
     {
         public GamepadIcons xbox;
-        public GamepadIcons ps4;
+        public GamepadIcons ps5;
 
         protected void OnEnable()
         {
@@ -34,26 +34,74 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
             var icon = default(Sprite);
             if (InputSystem.IsFirstLayoutBasedOnSecond(deviceLayoutName, "DualShockGamepad"))
-                icon = ps4.GetSprite(controlPath);
+                icon = ps5.GetSprite(controlPath);
             else if (InputSystem.IsFirstLayoutBasedOnSecond(deviceLayoutName, "Gamepad"))
                 icon = xbox.GetSprite(controlPath);
 
             var textComponent = component.bindingText;
 
-            // Grab Image component.
-            var imageGO = textComponent.transform.parent.Find("ActionBindingIcon");
+            if (textComponent == null)
+            {
+                Debug.LogError(
+                    "GamepadIconsExample: Binding Text is missing on RebindActionUI: " +
+                    component.gameObject.name
+                );
+                return;
+            }
+
+            var parent = textComponent.transform.parent;
+
+            if (parent == null)
+            {
+                Debug.LogError(
+                    "GamepadIconsExample: KeyText has no parent on: " +
+                    component.gameObject.name
+                );
+                return;
+            }
+
+            var imageGO = parent.Find("ActionBindingIcon");
+
+            if (imageGO == null)
+            {
+                Debug.LogError(
+                    "GamepadIconsExample: Could not find ActionBindingIcon under: " +
+                    GetFullPath(parent)
+                );
+                return;
+            }
+
             var imageComponent = imageGO.GetComponent<Image>();
 
+            if (imageComponent == null)
+            {
+                Debug.LogError(
+                    "GamepadIconsExample: ActionBindingIcon has no Image component on: " +
+                    imageGO.name
+                );
+                return;
+            }
+            
+            static string GetFullPath(Transform t)
+            {
+                string path = t.name;
+                while (t.parent != null)
+                {
+                    t = t.parent;
+                    path = t.name + "/" + path;
+                }
+                return path;
+            }
             if (icon != null)
             {
-                textComponent.gameObject.SetActive(false);
                 imageComponent.sprite = icon;
-                imageComponent.gameObject.SetActive(true);
+                imageGO.gameObject.SetActive(true);
+                textComponent.gameObject.SetActive(false);
             }
             else
             {
+                imageGO.gameObject.SetActive(false);
                 textComponent.gameObject.SetActive(true);
-                imageComponent.gameObject.SetActive(false);
             }
         }
 

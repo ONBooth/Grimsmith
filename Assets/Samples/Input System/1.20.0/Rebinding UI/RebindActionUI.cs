@@ -209,7 +209,8 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             {
                 var bindingIndex = action.bindings.IndexOf(x => x.id.ToString() == m_BindingId);
                 if (bindingIndex != -1)
-                    displayString = action.GetBindingDisplayString(bindingIndex, out deviceLayoutName, out controlPath, displayStringOptions);
+                    displayString = action.GetBindingDisplayString(bindingIndex, out deviceLayoutName, out controlPath,
+                        displayStringOptions);
             }
 
             // Set on label (if any).
@@ -227,19 +228,47 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         {
             if (!ResolveActionAndBinding(out var action, out var bindingIndex))
                 return;
+            
+            ResetBinding(action, bindingIndex);
 
-            if (action.bindings[bindingIndex].isComposite)
-            {
-                // It's a composite. Remove overrides from part bindings.
-                for (var i = bindingIndex + 1; i < action.bindings.Count && action.bindings[i].isPartOfComposite; ++i)
-                    action.RemoveBindingOverride(i);
-            }
-            else
-            {
-                action.RemoveBindingOverride(bindingIndex);
-            }
+            //if (action.bindings[bindingIndex].isComposite)
+            // {
+            // It's a composite. Remove overrides from part bindings.
+            //for (var i = bindingIndex + 1; i < action.bindings.Count && action.bindings[i].isPartOfComposite; ++i)
+            // action.RemoveBindingOverride(i);
+            //}
+            //else
+            //{
+            //action.RemoveBindingOverride(bindingIndex);
+            //}
             UpdateBindingDisplay();
         }
+
+        private void ResetBinding(InputAction action, int bindingIndex)
+        {
+            InputBinding newBinding = action.bindings[bindingIndex];
+            string oldOverridePath = newBinding.overridePath;
+
+            action.RemoveBindingOverride(bindingIndex);
+            foreach (InputAction otherAction in action.actionMap.actions)
+            {
+                if (otherAction == action)
+                {
+                    continue;
+                }
+
+                for (int i = 0; i < otherAction.bindings.Count; i++)
+                {
+                    InputBinding binding = otherAction.bindings[i];
+                    if (binding.overridePath == newBinding.path)
+                    {
+                        otherAction.ApplyBindingOverride(i, oldOverridePath);
+                    }
+                }
+
+            }
+        }
+
 
         /// <summary>
         /// Attempts to swap associated binding of this instance with another instance.
@@ -323,15 +352,14 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
 
             // Configure the rebind.
             m_RebindOperation = action.PerformInteractiveRebinding(bindingIndex)
-                .OnCancel(
-                    operation =>
-                    {
-                        m_RebindStopEvent?.Invoke(this, operation);
-                        if (m_RebindOverlay != null)
-                            m_RebindOverlay.SetActive(false);
-                        UpdateBindingDisplay();
-                        CleanUp();
-                    })
+                .OnCancel(operation =>
+                {
+                    m_RebindStopEvent?.Invoke(this, operation);
+                    if (m_RebindOverlay != null)
+                        m_RebindOverlay.SetActive(false);
+                    UpdateBindingDisplay();
+                    CleanUp();
+                })
                 // We want matching events to be suppressed during rebinding (this is also default).
                 //.WithMatchingEventsBeingSuppressed()
                 // Since this sample has no interactable UI during rebinding we also want to suppress non-matching events.
@@ -340,24 +368,33 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 .WithActionEventNotificationsBeingSuppressed()
                 // We use a timeout to illustrate that its possible to skip cancel buttons and let rebind timeout.
                 .WithTimeout(m_RebindTimeout)
-                .OnComplete(
-                    operation =>
-                    {
-                        if (m_RebindOverlay != null)
-                            m_RebindOverlay.SetActive(false);
-                        m_RebindStopEvent?.Invoke(this, operation);
-                        UpdateBindingDisplay();
-                        CleanUp();
+                .OnComplete(operation =>
+                {
+                    if (m_RebindOverlay != null)
+                        m_RebindOverlay.SetActive(false);
+                    m_RebindStopEvent?.Invoke(this, operation);
 
-                        // If there's more composite parts we should bind, initiate a rebind
-                        // for the next part.
-                        if (allCompositeParts)
-                        {
-                            var nextBindingIndex = bindingIndex + 1;
-                            if (nextBindingIndex < action.bindings.Count && action.bindings[nextBindingIndex].isPartOfComposite)
-                                PerformInteractiveRebind(action, nextBindingIndex, true);
-                        }
-                    });
+                    if (CheckDuplicateBindings(action, bindingIndex, allCompositeParts))
+                    {
+                        action.RemoveBindingOverride(bindingIndex);
+                        CleanUp();
+                        PerformInteractiveRebind(action, bindingIndex, allCompositeParts);
+                        return;
+                    }
+                    
+                    UpdateBindingDisplay();
+                    CleanUp();
+
+                    // If there's more composite parts we should bind, initiate a rebind
+                    // for the next part.
+                    if (allCompositeParts)
+                    {
+                        var nextBindingIndex = bindingIndex + 1;
+                        if (nextBindingIndex < action.bindings.Count &&
+                            action.bindings[nextBindingIndex].isPartOfComposite)
+                            PerformInteractiveRebind(action, nextBindingIndex, true);
+                    }
+                });
 
             // If it's a part binding, show the name of the part in the UI.
             var partName = default(string);
@@ -398,6 +435,39 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             m_RebindOperation.Start();
         }
 
+        private bool CheckDuplicateBindings(InputAction action, int bindingIndex, bool allCompositeParts = false)
+        {
+            InputBinding newBinding = action.bindings[bindingIndex];
+
+            foreach (InputBinding binding in action.actionMap.bindings)
+            {
+                if (binding.action == newBinding.action)
+                    continue;
+
+                if (binding.effectivePath == newBinding.effectivePath)
+                {
+                    Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
+                    return true;
+                }
+            }
+
+            if (allCompositeParts)
+            {
+                for (int i = 1; i < bindingIndex; i++)
+                {
+                    if (action.bindings[i].effectivePath == newBinding.overridePath)
+                    {
+                        Debug.Log("Duplicate binding found: " + newBinding.effectivePath);
+                        return true;
+                 }
+
+               }
+            }
+          return false;
+        }
+    
+    
+    
         private void UpdateRebindInfo(double now)
         {
             if (m_RebindOperation == null)
@@ -511,6 +581,12 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         [Tooltip("Optional cancellation UI button for rebinding overlay.")]
         [SerializeField]
         private Button m_RebindCancelButton;
+
+        [Tooltip("Optional bool field which allows you to OVERRIDE the action label with your own text")]
+        public bool m_OverRideActionLabel;
+        [Tooltip("What text should be Displayed for the action label?")]
+        [SerializeField]
+        private string m_ActionLabelString;
 
         [Tooltip("Optional rebinding timeout in seconds. If zero, no timeout will be used.")]
         [SerializeField]

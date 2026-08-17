@@ -13,8 +13,10 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
     [CustomEditor(typeof(RebindActionUI))]
     public class RebindActionUIEditor : UnityEditor.Editor
     {
+         RebindActionUI m_RebindActionUI;
         protected void OnEnable()
         {
+            m_RebindActionUI = (RebindActionUI)target;
             m_ActionLabelProperty = serializedObject.FindProperty("m_ActionLabel");
             m_BindingTextProperty = serializedObject.FindProperty("m_BindingText");
             m_RebindOverlayProperty = serializedObject.FindProperty("m_RebindOverlay");
@@ -25,6 +27,8 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
             m_UpdateBindingUIEventProperty = serializedObject.FindProperty("m_UpdateBindingUIEvent");
             m_RebindStartEventProperty = serializedObject.FindProperty("m_RebindStartEvent");
             m_RebindStopEventProperty = serializedObject.FindProperty("m_RebindStopEvent");
+            m_actionOverRideProperty = serializedObject.FindProperty("m_actionOverRideActionLabel");
+            m_actionOverRideStringProperty = serializedObject.FindProperty("m_actionOverRideString");
 
             m_BindingUI = new BindingUI(serializedObject);
         }
@@ -47,6 +51,21 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
                 EditorGUILayout.PropertyField(m_RebindTextProperty);
                 EditorGUILayout.PropertyField(m_RebindInfoProperty);
                 EditorGUILayout.PropertyField(m_RebindCancelButtonProperty);
+            }
+
+            //Customize UI section
+             EditorGUILayout.Space();
+            EditorGUILayout.LabelField(m_CustomizeUILabel);
+            using (new EditorGUI.IndentLevelScope())
+            {
+                EditorGUILayout.PropertyField(m_actionOverRideProperty);
+                if (m_RebindActionUI.m_OverRideActionLabel)
+                {
+                  EditorGUILayout.PropertyField(m_actionOverRideStringProperty);
+                  EditorGUILayout.PropertyField(m_actionOverRideStringProperty);
+                } 
+                
+                
             }
 
             // Rebind options section.
@@ -84,9 +103,13 @@ namespace UnityEngine.InputSystem.Samples.RebindUI
         private SerializedProperty m_RebindStartEventProperty;
         private SerializedProperty m_RebindStopEventProperty;
         private SerializedProperty m_UpdateBindingUIEventProperty;
+        private SerializedProperty m_actionOverRideProperty;
+        private SerializedProperty m_actionOverRideStringProperty;
+
 
         private GUIContent m_UILabel = new GUIContent("UI");
         private GUIContent m_RebindOptionsLabel = new GUIContent("Rebind Options");
+        private GUIContent m_CustomizeUILabel = new GUIContent("Customize UI");
         private GUIContent m_EventsLabel = new GUIContent("Events");
         private BindingUI m_BindingUI;
     }
