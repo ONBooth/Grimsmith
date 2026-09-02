@@ -17,6 +17,7 @@ namespace Games.UI
 
         [SerializeField] private SettingsPanelAnimator settingsAnimator;
         [SerializeField] private PausePanelAnimator panelAnimator;
+        [SerializeField] private CreditsAnimation creditsAnimator;
         
 
         private GameObject[] AllPanels => new[]
@@ -68,8 +69,17 @@ namespace Games.UI
         public void OnControlsPressed() => ShowOnly(controlsPanel);
         public void OnControlsClosed()  => ShowOnly(settingsPanel);
 
-        public void OnCreditsPressed() => ShowOnly(creditsPanel);
-        public void OnCreditsClosed()  => ShowOnly(settingsPanel);
+        public void OnCreditsPressed()
+        {
+            ShowOnly(null);
+            creditsAnimator.Play();
+        }
+                                                  
+        
+        public void OnCreditsClosed()
+        {
+            ShowOnly(settingsPanel);
+        }
 
         public void OnPausePressed()
         {
@@ -91,11 +101,12 @@ namespace Games.UI
 
         public void OnQuitPressed()
         {
-#if UNITY_EDITOR
+           #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
-#else
+          #else
             Application.Quit();
-#endif
+          #endif
+
         }
     }
 }
