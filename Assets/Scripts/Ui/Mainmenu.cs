@@ -14,6 +14,8 @@ namespace Games.UI
         [SerializeField] private GameObject creditsPanel;
         [SerializeField] private GameObject pausePanel;
         [SerializeField] private GameObject tipsPanel;
+        [SerializeField] private TipListItemButton tipListItemButton; 
+
 
         [SerializeField] private SettingsPanelAnimator settingsAnimator;
         [SerializeField] private PausePanelAnimator panelAnimator;
@@ -95,7 +97,12 @@ namespace Games.UI
             
             
         
-        public void onTipsPressed() => ShowOnly(tipsPanel);
+        public void onTipsPressed()
+       {
+         tipListItemButton.ClearTip();
+          ShowOnly(tipsPanel);
+       }
+
         public void OnTipsClosed()  => ShowOnly(settingsPanel);
         
 

@@ -4,17 +4,15 @@ using UnityEngine.SceneManagement;
 
 namespace Games.UI
 {
-    /// <summary>
-    /// Drop into your gameplay scene. Assign the "Pause" InputActionReference
-    /// from your PlayerControls asset (Gameplay map).
-    /// </summary>
     public class PauseMenu : MonoBehaviour
     {
         [SerializeField] private InputActionReference pauseAction;
         [SerializeField] private GameObject pausePanel;
         [SerializeField] private GameObject settingsPanel;
         [SerializeField] private GameObject tipsPanel;
-        [SerializeField] private string mainMenuSceneName = "MainMenu";
+        [SerializeField] private string mainMenuSceneName = "Grimsmith";
+
+        [SerializeField] private PausePanelAnimator panelAnimator; 
 
         private bool _isPaused;
 
@@ -33,7 +31,6 @@ namespace Games.UI
 
         private void OnPauseTriggered(InputAction.CallbackContext ctx)
         {
-            // If settings are open, back out of them instead of unpausing.
             if (settingsPanel != null && settingsPanel.activeSelf)
             {
                 settingsPanel.SetActive(false);
@@ -48,15 +45,13 @@ namespace Games.UI
         public void Pause()
         {
             _isPaused = true;
-            Time.timeScale = 0f;
-            pausePanel.SetActive(true);
+            panelAnimator.Open(); // handles Time.timeScale = 0f AND SetActive(true) internally, plus the animation
         }
 
         public void Resume()
         {
             _isPaused = false;
-            Time.timeScale = 1f;
-            pausePanel.SetActive(false);
+            panelAnimator.Close(); // handles Time.timeScale = 1f AND SetActive(false) internally, plus the animation
         }
 
         public void OnSettingsPressed()
@@ -70,6 +65,7 @@ namespace Games.UI
             Time.timeScale = 1f;
             SceneManager.LoadScene(mainMenuSceneName);
         }
+
         public void OnTipsPressed()
         {
             pausePanel.SetActive(false);
