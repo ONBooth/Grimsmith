@@ -10,11 +10,11 @@ namespace Games.UI
 {
     public class MenuUi : MonoBehaviour
     {
-        [Header("Window Settings")] 
-        [SerializeField] private GameObject window;
+        [Header("Panel Settings")] 
+        [SerializeField] private GameObject panel;
 
-        [SerializeField] private RectTransform windowRectTransform;
-        [SerializeField] private CanvasGroup windowCanvasGroup;
+        [SerializeField] private RectTransform panelRectTransform;
+        [SerializeField] private CanvasGroup panelCanvasGroup;
 
         public enum AnimateToDirection
         {
@@ -41,13 +41,13 @@ namespace Games.UI
         private Vector2 _leftOffset;
         private Vector2 _rightOffset;
 
-        private Coroutine _animateWindowCoroutine;
+        private Coroutine _animatePanelCoroutine;
 
         [Header("ChangeHelpers")] 
         [SerializeField] private bool changeGizmos = true;
 
-        public static event Action OnOpenWindow;
-        public static event Action OnCloseWindow;
+        public static event Action OnOpenPanel;
+        public static event Action OnClosePanel;
 
         private enum DisplayGizmosAtLocation
         {
@@ -65,8 +65,8 @@ namespace Games.UI
 
         [SerializeField ] private Color gizmoInitallocationColor = Color.grey;
 
-        private Vector2 _windowOpenPositionForGizmo;
-        private Vector2 _windowClosePositionForGizmo;
+        private Vector2 _panelOpenPositionForGizmo;
+        private Vector2 _panelClosePositionForGizmo;
         private Vector2 _initialPositionForGizmos;
 
 
@@ -76,16 +76,16 @@ namespace Games.UI
         private void OnValidate()
 
         {
-            if (window != null)
+            if (panel != null)
             {
-                windowRectTransform = window.GetComponent<RectTransform>();
-                windowCanvasGroup = window.GetComponent<CanvasGroup>();
+                panelRectTransform = panel.GetComponent<RectTransform>();
+                panelCanvasGroup = panel.GetComponent<CanvasGroup>();
             }
 
             distanceToAnimate.x = Mathf.Max(a: 0, b: distanceToAnimate.x);
             distanceToAnimate.y = Mathf.Max(a: 0, b: distanceToAnimate.y);
 
-            _initialPosition = window.transform.position;
+            _initialPosition = panel.transform.position;
 
             RecalculateGizmoPositions();
 
@@ -95,7 +95,7 @@ namespace Games.UI
 
         private void Start()
         {
-            _initialPosition = window.transform.position;
+            _initialPosition = panel.transform.position;
 
             InitializeOffsetPostions();
         }
@@ -113,35 +113,35 @@ namespace Games.UI
         public void ToggleOpenClose()
         {
             if (_isOpen)
-                CloseWindow();
+                ClosePanel();
             else
             
-                OpenWindow();
+                OpenPanel();
             
         }
 
-        [ContextMenu("Open Window")]
-        public void OpenWindow()
+        [ContextMenu("Open Panel")]
+        public void OpenPanel()
         {
             if (_isOpen)
                 return;
             _isOpen = true;
-            OnOpenWindow?.Invoke();
+            OnOpenPanel?.Invoke();
 
-            if (_animateWindowCoroutine != null)
-                StopCoroutine(_animateWindowCoroutine);
-            _animateWindowCoroutine = StartCoroutine(routine: AnimateWindow(open: true));
+            if (_animatePanelCoroutine != null)
+                StopCoroutine(_animatePanelCoroutine);
+            _animatePanelCoroutine = StartCoroutine(routine: AnimatePanel(open: true));
         }
-        [ContextMenu("Close Window")]
-        public void CloseWindow()
+        [ContextMenu("Close Panel")]
+        public void ClosePanel()
         {
             if (!_isOpen)
                 return;
             _isOpen = false;
-            OnCloseWindow?.Invoke();
-            if (_animateWindowCoroutine != null)
-                StopCoroutine(_animateWindowCoroutine);
-            _animateWindowCoroutine = StartCoroutine(routine: AnimateWindow(open:false));
+            OnClosePanel?.Invoke();
+            if (_animatePanelCoroutine != null)
+                StopCoroutine(_animatePanelCoroutine);
+            _animatePanelCoroutine = StartCoroutine(routine: AnimatePanel(open:false));
         }
         
         private Vector2 GetOffset(AnimateToDirection direction)
@@ -164,11 +164,11 @@ namespace Games.UI
 
         }
 
-        private IEnumerator AnimateWindow(bool open)
+        private IEnumerator AnimatePanel(bool open)
         {
             if (open)
-                window.gameObject.SetActive(true);
-            _currentPosition = window.transform.position;
+                panel.gameObject.SetActive(true);
+            _currentPosition = panel.transform.position;
             float elapsedTime = 0;
             Vector2 targetPosition = _currentPosition;
             
@@ -179,9 +179,9 @@ namespace Games.UI
             while (elapsedTime < animationDuration)    
             {
                 float evaluationAtTime =easingCurve.Evaluate(time:elapsedTime/ animationDuration);
-                window.transform.position = Vector2.Lerp(a: _currentPosition, b: targetPosition, evaluationAtTime);
+                panel.transform.position = Vector2.Lerp(a: _currentPosition, b: targetPosition, evaluationAtTime);
 
-                windowCanvasGroup.alpha = open
+                panelCanvasGroup.alpha = open
                     ? Mathf.Lerp(a: 0f, b: 1f, evaluationAtTime)
                     : Mathf.Lerp(a: 1f, b: 0f, t:evaluationAtTime);
                 
@@ -189,16 +189,16 @@ namespace Games.UI
                 yield return null;
             }
             
-            window.transform.position = targetPosition;
+            panel.transform.position = targetPosition;
 
-            windowCanvasGroup.alpha = open ? 1 : 0;
-            windowCanvasGroup.interactable = open;
-            windowCanvasGroup.blocksRaycasts = open;
+            panelCanvasGroup.alpha = open ? 1 : 0;
+            panelCanvasGroup.interactable = open;
+            panelCanvasGroup.blocksRaycasts = open;
 
             if (!open)
             {
-                window.gameObject.SetActive(false);
-                window.transform.position = _initialPosition;
+                panel.gameObject.SetActive(false);
+                panel.transform.position = _initialPosition;
             }
 
         }
@@ -214,41 +214,41 @@ namespace Games.UI
         private void RecalculateGizmoPositions()
         {
             InitializeOffsetPostions();
-            _initialPositionForGizmos = new Vector2(window.transform.position.x, window.transform.position.y) + windowRectTransform.rect.center;
-            _windowOpenPositionForGizmo =  _initialPositionForGizmos + GetOffset(openDirection);
-            _windowClosePositionForGizmo = _windowOpenPositionForGizmo + GetOffset(closeDirection);
+            _initialPositionForGizmos = new Vector2(panel.transform.position.x, panel.transform.position.y) + panelRectTransform.rect.center;
+            _panelOpenPositionForGizmo =  _initialPositionForGizmos + GetOffset(openDirection);
+            _panelClosePositionForGizmo = _panelOpenPositionForGizmo + GetOffset(closeDirection);
         }
 
         private void OnDrawGizmos()
         {
             if (!changeGizmos)
                 return;
-            if (window == null)
+            if (panel == null)
                 return;
-            if (windowRectTransform == null)
+            if (panelRectTransform == null)
                 return;
             Gizmos.color = gizmoInitallocationColor;
-            Gizmos.DrawWireCube(center: _initialPositionForGizmos, windowRectTransform.sizeDelta);
+            Gizmos.DrawWireCube(center: _initialPositionForGizmos, panelRectTransform.sizeDelta);
 
             switch (gizmoHandler)
             {
                 case DisplayGizmosAtLocation.Open:
-                    DrawCube(_windowOpenPositionForGizmo,opens:true);
+                    DrawCube(_panelOpenPositionForGizmo,opens:true);
                     break;
                 case DisplayGizmosAtLocation.Close:
-                DrawCube(_windowClosePositionForGizmo,opens:false);
+                DrawCube(_panelClosePositionForGizmo,opens:false);
                     break;
                 case  DisplayGizmosAtLocation.Both:
-                    DrawCube(_windowClosePositionForGizmo, opens:true);
-                    DrawCube(_windowOpenPositionForGizmo,opens:false);
+                    DrawCube(_panelClosePositionForGizmo, opens:true);
+                    DrawCube(_panelOpenPositionForGizmo,opens:false);
                     break;
                 
                 default:
                     case DisplayGizmosAtLocation.Situational:
                         if (_isOpen)
-                        DrawCube(_windowClosePositionForGizmo, opens:true);
+                        DrawCube(_panelClosePositionForGizmo, opens:true);
                         else
-                        DrawCube(_windowOpenPositionForGizmo, opens:false);
+                        DrawCube(_panelOpenPositionForGizmo, opens:false);
                     break;
             }
             DrawIndicators();
@@ -256,19 +256,19 @@ namespace Games.UI
                 
                 
             
-            private void DrawCube(Vector2 windowPosition, bool opens)
+            private void DrawCube(Vector2 panelPosition, bool opens)
             {
                 Gizmos.color = opens ? gizmoOpenColor : gizmoCloseColor;
-                Gizmos.DrawWireCube(center: windowPosition, windowRectTransform.sizeDelta);
+                Gizmos.DrawWireCube(center: panelPosition, panelRectTransform.sizeDelta);
             }
             
             private void DrawIndicators()
             {
                 Gizmos.color = gizmoOpenColor;
-                Gizmos.DrawLine(_initialPositionForGizmos, _windowClosePositionForGizmo);
+                Gizmos.DrawLine(_initialPositionForGizmos, _panelClosePositionForGizmo);
                 
                 Gizmos.color = gizmoCloseColor;
-                Gizmos.DrawLine(_windowOpenPositionForGizmo, _windowClosePositionForGizmo);
+                Gizmos.DrawLine(_panelOpenPositionForGizmo, _panelClosePositionForGizmo);
                 
         }
 
