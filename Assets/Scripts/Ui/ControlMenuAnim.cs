@@ -1,7 +1,9 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using PrimeTween;
 using System.Collections.Generic;
+using TMPro;
 
 namespace Games.UI
 {
@@ -31,12 +33,14 @@ namespace Games.UI
         [SerializeField] private float ambientZoomDuration = 6f;
         [SerializeField] private float switchZoomPunchScale = 1.1f;
         [SerializeField] private float switchZoomPunchDuration = 0.6f;
-
-        [Header("Reset All")]
-        [SerializeField] private Button resetAllButton;
-        [SerializeField] private List<RebindActionUI> allRebindrows;
-        [SerializeField] private float resetStaggerPerRow = 0.035f;
-
+        
+        
+        [Header("Confirm / Revert Safety Net")]
+        [SerializeField] private GameObject WaitForInputPanel;
+        [SerializeField] private TextMeshProUGUI WaitForInputText;
+        [SerializeField] private float revertTimeoutSeconds = 8f;
+        Coroutine revertCoroutine;
+        
         [Header("Timing")]
         [SerializeField] private float panelSwitchDuration = 0.35f;
         [SerializeField] private float panelSlideDistance = 70f;
@@ -50,7 +54,7 @@ namespace Games.UI
         {
             keyboardButton.onClick.AddListener(() => SwitchTo(true));
             controllerButton.onClick.AddListener(() => SwitchTo(false));
-            resetAllButton.onClick.AddListener(ResetAll);
+            
         }
 
         private void OnEnable()
@@ -66,6 +70,7 @@ namespace Games.UI
                 SnapUnderline(showingKeyboard);
 
             StartAmbientZoom();
+            
         }
 
         private void OnDisable()
@@ -149,57 +154,42 @@ namespace Games.UI
         {
             var targetRect = (RectTransform)(keyboard ? keyboardButton : controllerButton).transform;
             Tween.PositionX(Underline, targetRect.position.x, panelSwitchDuration, Ease.OutCubic);
+        
+        }
+        void BeginConfirmCountdown()
+        {
+            if (revertCoroutine != null) StopCoroutine(revertCoroutine);
+            revertCoroutine = StartCoroutine(ConfirmCountdownRoutine());
         }
 
-        public void ResetAll()
+        IEnumerator ConfirmCountdownRoutine()
         {
-            // Ignore extra clicks while a reset wave is already playing out — without
-            // this, spamming the button queues overlapping batches of Tween.Delay
-            // callbacks, and if a row gets deactivated (e.g. from switching tabs)
-            // before its delayed callback fires, that callback throws trying to
-            // animate a transform that's no longer valid.
-            if (isResetting) return;
-            isResetting = true;
-            resetAllButton.interactable = false;
+            WaitForInputPanel.SetActive(true);
+            float remaining = revertTimeoutSeconds;
 
-            // Punch the button itself for immediate feedback on click.
-            Tween.Scale(resetAllButton.transform, 1.2f, 0.15f, Ease.OutSine, cycles: 2, cycleMode: CycleMode.Yoyo);
-
-            // Extra background pulse to sell "something big just happened".
-            StopBackgroundAnimations();
-            backgroundPunchSequence = Sequence.Create()
-                .Chain(Tween.Scale(background, switchZoomPunchScale * 1.02f, 0.25f, Ease.OutSine))
-                .Chain(Tween.Scale(background, 1f, 0.4f, Ease.InOutSine))
-                .OnComplete(() => StartAmbientZoom());
-
-            float lastDelay = 0f;
-
-            for (var i = 0; i < allRebindrows.Count; i++)
+            while (remaining > 0f)
             {
-                var row = allRebindrows[i];
-                if (row == null) continue;
-
-                var delay = i * resetStaggerPerRow;
-                lastDelay = delay;
-
-                Tween.Delay(delay, () =>
-                {
-                    // Row may have been destroyed or deactivated between queuing this
-                    // callback and it actually firing — bail out safely instead of
-                    // throwing on a stale reference.
-                    if (row == null) return;
-
-                    row.ResetToDefault();
-                    Tween.Scale(row.transform, 1.15f, 0.18f, Ease.OutBack, cycles: 2, cycleMode: CycleMode.Yoyo);
-                });
+                WaitForInputText.text = $"Reverting in {Mathf.CeilToInt(remaining)}...";
+                yield return null;
+                remaining -= Time.unscaledDeltaTime; // unscaled — this must work even if the game is paused
             }
 
-            // Re-enable the button once the full staggered wave has finished playing.
-            Tween.Delay(lastDelay + 0.25f, () =>
-            {
-                isResetting = false;
-                resetAllButton.interactable = true;
-            });
+            RevertNow();
+        }
+
+        public void KeepChanges()
+        {
+            if (revertCoroutine != null) StopCoroutine(revertCoroutine);
+            WaitForInputPanel.SetActive(false);
+        }
+
+        public void RevertNow()
+        {
+            if (revertCoroutine != null) StopCoroutine(revertCoroutine);
+            WaitForInputPanel.SetActive(false);
+
+            // Refresh dropdowns to reflect the restored state.
+            
         }
     }
 }
