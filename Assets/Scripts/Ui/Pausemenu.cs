@@ -13,6 +13,7 @@ namespace Games.UI
         [SerializeField] private string mainMenuSceneName = "Grimsmith";
 
         [SerializeField] private PausePanelAnimator panelAnimator; 
+        
 
         private bool _isPaused;
 
@@ -22,6 +23,7 @@ namespace Games.UI
             pauseAction.action.Enable();
             pauseAction.action.performed += OnPauseTriggered;
         }
+        
 
         private void OnDisable()
         {
@@ -71,5 +73,13 @@ namespace Games.UI
             pausePanel.SetActive(false);
             tipsPanel.SetActive(true);
         }
+
+        public void TogglePause()
+        {
+            if (_isPaused) Resume();
+            else Pause();
+
+        }
+        
     }
 }

@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Game.UI;
+using Games.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -7,7 +9,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionAsset _inputActionAsset;
     [SerializeField] private InputActionReference _moveAction;
     [SerializeField] private InputActionReference _jumpAction;
+    [SerializeField] private InputActionReference _pauseAction;
     
+    [SerializeField] private PauseMenu _pauseMenu;
 
     private void OnEnable()
     {
@@ -54,6 +58,12 @@ public class PlayerController : MonoBehaviour
 
     private void OnJumpCanceled(InputAction.CallbackContext ctx)
     {
-       // no action needed 
+       // no action needed yet \('*')/
     }
+
+    private void OnPausePerformed(InputAction.CallbackContext ctx)
+    {
+        
+    }
+    
 }
