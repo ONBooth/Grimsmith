@@ -1,0 +1,8 @@
+﻿<Solution>
+  <Project Path="Unity.InputSystem.RebindingUI.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
+  <Project Path="PrimeTween.Demo.csproj" />
+  <Project Path="PrimeTween.Debug.csproj" />
+  <Project Path="Assembly-CSharp-Editor.csproj" />
+  <Project Path="PrimeTween.Installer.csproj" />
+</Solution>
