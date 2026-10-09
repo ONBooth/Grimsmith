@@ -78,12 +78,7 @@ namespace Games.UI
             StopBackgroundAnimations();
         }
 
-        // PrimeTween doesn't allow stopping an individual tween once it's been added
-        // to a Sequence (it becomes "nested" and only the parent Sequence can stop it).
-        // Since the background punch animation is built with Sequence.Create().Chain(...),
-        // we track that Sequence directly and stop IT, rather than calling
-        // Tween.StopAll(onTarget: background) — which would try to stop the nested
-        // tweens individually and throw.
+        
         private void StopBackgroundAnimations()
         {
             ambientZoomTween.Stop();
