@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-
 using TMPro;
 
 public class SocialMediaAnim : MonoBehaviour
@@ -12,13 +11,15 @@ public class SocialMediaAnim : MonoBehaviour
     [SerializeField] private Button NoButton;
 
 
-    [Header("Confirm / Revert Safety Net")]
+    [Header("Confirm / Revert Safety Net")] 
+    [SerializeField] private GameObject confirmPanel;
     [SerializeField] private GameObject WaitForInputPanel;
     [SerializeField] private TextMeshProUGUI WaitForInputText;
+    [SerializeField] private GameObject WaitForInputInfoPanel;
     [SerializeField] private float revertTimeoutSeconds = 8f;
 
     private string pendingUrl;
-    Coroutine revertCoroutine;
+    private Coroutine revertCoroutine;
 
 
     private void Awake()
@@ -44,42 +45,51 @@ public class SocialMediaAnim : MonoBehaviour
         revertCoroutine = StartCoroutine(ConfirmCountdownRoutine());
     }
 
-    IEnumerator ConfirmCountdownRoutine()
+    private IEnumerator ConfirmCountdownRoutine()
     {
         WaitForInputPanel.SetActive(true);
         float remaining = revertTimeoutSeconds;
 
         while (remaining > 0f)
         {
-            WaitForInputText.text = $"Open link? Closing in {Mathf.CeilToInt(remaining)}...";
+            WaitForInputText.text = $" Press Yes to Confirm or No to Cancel {Mathf.CeilToInt(remaining)}...";
             yield return null;
             remaining -= Time.unscaledDeltaTime;
           
         }
-        Application.OpenURL("https://onbooth.itch.io/" );
-        Application.OpenURL("https://www.artstation.com/onbooth");
-        Application.OpenURL("https://uk.linkedin.com/in/oneish-webb-nicholson-7627b11ba");
-        Application.OpenURL("https://x.com/onb_ooth?s=11&t=oS4PE_6yfqfCCzOrEVsf1Q");
-        Application.OpenURL("https://bsky.app/profile/onbooth.bsky.social");
-        Cancel();
+        Application.OpenURL("https://linktr.ee/ONBooth" );
+        
+        Cancel(); // cancels open and catahes safety proctocol 
     }
 
     void ConfirmOpen()
     {
-        if (revertCoroutine != null) StopCoroutine(revertCoroutine);
+        StopCountdown();
         WaitForInputPanel.SetActive(false);
 
-        if (!string.IsNullOrEmpty(pendingUrl))
-            
 
-        
+        if (!string.IsNullOrEmpty(pendingUrl))
+        {
+            Application.OpenURL(pendingUrl);
+        }
+            
         pendingUrl = null;
     }
 
     void Cancel()
     {
         if (revertCoroutine != null) StopCoroutine(revertCoroutine);
+        StopCountdown();
         WaitForInputPanel.SetActive(false);
         pendingUrl = null;
+    }
+
+    private void StopCountdown()
+    {
+        if (revertCoroutine != null) 
+        {
+            StopCoroutine(revertCoroutine);
+            revertCoroutine = null;
+        }
     }
 }
