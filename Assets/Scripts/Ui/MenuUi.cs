@@ -1,10 +1,6 @@
 using UnityEngine; 
 using System;
 using System.Collections;
-using UnityEditor.SceneManagement;
-using UnityEngine.PlayerLoop;
-using UnityEngine.Scripting;
-using UnityEngine.UI;
 
 namespace Games.UI
 {
