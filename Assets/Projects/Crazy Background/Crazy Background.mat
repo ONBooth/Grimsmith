@@ -8,10 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Crazy Background
-  m_Shader: {fileID: -6465566751694194690, guid: 066e71baf67ea4daa95767b6a0cf2943,
-    type: 3}
-  m_Parent: {fileID: -876546973899608171, guid: 066e71baf67ea4daa95767b6a0cf2943,
-    type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 066e71baf67ea4daa95767b6a0cf2943, type: 3}
+  m_Parent: {fileID: -876546973899608171, guid: 066e71baf67ea4daa95767b6a0cf2943, type: 3}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -28,20 +26,22 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _Blend: 0
     - _Color_Shift: 0.1
     - _Color_Shift_Speed: 0.82
     - _Density: 39.34
-    - _Scale: 6.4
+    - _Intensity: 0.314
+    - _Scale: 7
     - _Sharpen: 1
-    - _Sharpness: 0.98
+    - _Sharpness: 1
     - _Shift_Colour: 0
     - _Speed: 0.1
-    - _Swirl: 8.6
+    - _Swirl: 7.5
     - _Swirl_Speed: 2.42
     - _Use_Gradient: 1
     m_Colors:
-    - _Colour_A: {r: 0.38277638, g: 1, b: 0, a: 1}
-    - _Colour_B: {r: 0, g: 0.6698113, b: 0.07273793, a: 1}
+    - _Colour_A: {r: 1, g: 0, b: 0.029372692, a: 1}
+    - _Colour_B: {r: 0, g: 0, b: 0, a: 1}
     - _Swirl_Scale_Tween: {r: 0.1, g: 0.2, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

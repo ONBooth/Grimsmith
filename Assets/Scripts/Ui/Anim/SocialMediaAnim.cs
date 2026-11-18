@@ -40,6 +40,7 @@ public class SocialMediaAnim : MonoBehaviour
     // passing the URL as the string argument.
     public void AskToOpen(string url)
     {
+        Debug.Log($"AskToOpen called with '{url}'");
         pendingUrl = url;
         if (revertCoroutine != null) StopCoroutine(revertCoroutine);
         revertCoroutine = StartCoroutine(ConfirmCountdownRoutine());
@@ -57,8 +58,9 @@ public class SocialMediaAnim : MonoBehaviour
             remaining -= Time.unscaledDeltaTime;
           
         }
-        Application.OpenURL("https://linktr.ee/ONBooth" );
         
+        
+        revertCoroutine = null;
         Cancel(); // cancels open and catahes safety proctocol 
     }
 
@@ -67,12 +69,11 @@ public class SocialMediaAnim : MonoBehaviour
         StopCountdown();
         WaitForInputPanel.SetActive(false);
 
-
+        Debug.Log($"ConfirmOpen pendingUrl = '{pendingUrl}'");
         if (!string.IsNullOrEmpty(pendingUrl))
         {
             Application.OpenURL(pendingUrl);
         }
-            
         pendingUrl = null;
     }
 

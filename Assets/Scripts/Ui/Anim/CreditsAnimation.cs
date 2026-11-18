@@ -15,6 +15,8 @@ namespace Games.UI
         [SerializeField] private float stagger = 0.15f;
         [SerializeField] private float fadeDuration = 0.4f;
         [SerializeField] private float slideDistance = 25f;
+        
+        
 
         RectTransform[] entries;
         CanvasGroup[] entryGroups;
