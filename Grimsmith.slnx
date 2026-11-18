@@ -1,10 +1,10 @@
 ﻿<Solution>
   <Project Path="Unity.InputSystem.RebindingUI.csproj" />
+  <Project Path="Ink-Libraries.csproj" />
   <Project Path="Assembly-CSharp.csproj" />
   <Project Path="PrimeTween.Demo.csproj" />
-  <Project Path="Nobi.UiRoundedCorners.Editor.csproj" />
+  <Project Path="InkEditor.csproj" />
   <Project Path="PrimeTween.Debug.csproj" />
-  <Project Path="Nobi.UiRoundedCorners.csproj" />
   <Project Path="Assembly-CSharp-Editor.csproj" />
   <Project Path="PrimeTween.Installer.csproj" />
 </Solution>
