@@ -6,6 +6,7 @@ namespace Games.Camera
     {
         [SerializeField] private CameraModeManager cameraModeManager;
         [SerializeField] private CameraModeManager.Mode modeOnEnter;
+        [SerializeField] private CameraModeManager.Mode modeOnExit;
 
         void OnTriggerEnter(Collider other)
         {
@@ -16,5 +17,15 @@ namespace Games.Camera
             else
                 cameraModeManager.SwitchTo2D();
         }
+        void OnTriggerExit(Collider other)
+        {
+            if (!other.CompareTag("Player")) return;
+
+            if (modeOnExit == CameraModeManager.Mode.TwoD)
+                cameraModeManager.SwitchTo2D();
+            else
+                cameraModeManager.SwitchTo3D();
+        }
     }
+
 }

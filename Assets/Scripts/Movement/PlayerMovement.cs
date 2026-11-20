@@ -16,6 +16,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector2 _moveDirection;
 
+    [HideInInspector] public Npcs npc;
+
+
     public void SetMoveDirection(Vector2 direction)
     {
         _moveDirection = direction;
@@ -37,5 +40,14 @@ public class PlayerMovement : MonoBehaviour
         rb.linearVelocity = new Vector3(velocity.x, 0f, velocity.z); // reset vertical velocity for consistent jump height
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         Debug.Log("Skibidi");
+    }
+
+    public void OnInteract()
+    {
+        Debug.Log("SHowww");
+        if (npc != null)
+        {
+            npc.ShowID();
+        }
     }
 }
