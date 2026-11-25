@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fca1834867d13a54c916d8ca8b752eb6, type: 3}
-  m_Name: Npcs1
+  m_Name: Npcs7 (Yanhua)
   m_EditorClassIdentifier: Assembly-CSharp::StaffID
   ID: 1000
-  JobTitle: Head Staff
-  Name: Ikrama
-  Date: 11/11/77
-  Expries: 11/11/88
-  IDnumber: 1000
-  photoID: {fileID: 6235386632032978715, guid: bb17a71215251054cbd1704fa5c167f2, type: 3}
+  JobTitle: Junior Staff
+  Name: Yanhua
+  Date: 12/05/80
+  Expries: 16/01/98
+  IDnumber: 1002
+  photoID: {fileID: -306319812457808437, guid: 407808b754bef844492f365bedde250e, type: 3}

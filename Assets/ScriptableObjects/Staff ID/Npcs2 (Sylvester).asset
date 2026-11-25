@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fca1834867d13a54c916d8ca8b752eb6, type: 3}
+  m_Name: Npcs2 (Sylvester)
+  m_EditorClassIdentifier: Assembly-CSharp::StaffID
+  ID: 1000
+  JobTitle: Junior Staff
+  Name: Sylvester
+  Date: 12/05/80
+  Expries: 16/01/98
+  IDnumber: 1001
+  photoID: {fileID: -4634622884167513190, guid: 66eed7693d8004f4db9f370c20a62c25, type: 3}

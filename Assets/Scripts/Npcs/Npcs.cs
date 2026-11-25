@@ -1,6 +1,5 @@
 using UnityEngine;
 using TMPro;
-using UnityEditor.U2D;
 using UnityEngine.UI;
 
 public class Npcs : MonoBehaviour
