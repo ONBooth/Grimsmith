@@ -94,7 +94,7 @@ public class IDPanel : MonoBehaviour
         // Hide all the letters before the animation starts
         foreach (TextMeshProUGUI text in texts) text.maxVisibleCharacters = 0;
         sequence = Sequence.Create(useUnscaledTime: true)
-            // 1. The case file splits open
+            // 1. The information file splits open
             .Group(Tween.UIAnchoredPosition(top, topOpen, openTime, Ease.OutBack))
             .Group(Tween.UIAnchoredPosition(bottom, bottomOpen, openTime, Ease.OutBack))
             .Group(Tween.ScaleY(middle, 1f, openTime, Ease.OutCubic))
